@@ -6,7 +6,7 @@ public class Practice5 {
         Scanner scanner = new Scanner(System.in);
 
         int historiaLaboral;
-        int cedula;
+        long cedula;
         String nombresCompletos;
         int edad;
 
@@ -36,7 +36,7 @@ public class Practice5 {
             if (!cedulaString.matches("^[0-9]{10}$")) {
                 solicitarCedula();
             } else {
-                cedula = Integer.parseInt(cedulaString);
+                cedula = Long.parseLong(cedulaString);
             }
         }
 
@@ -104,12 +104,11 @@ public class Practice5 {
 
     }
 
-    public static void main(String[] args) {
+    static class SistemaMedico {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Paciente> pacientes = new ArrayList<>();
-        char deseaIngresarPaciente = 's';
 
-        while (deseaIngresarPaciente == 's' && pacientes.size() != 6) {
+        public void registrarPacientes() {
 
             System.out.println("----Ingrese datos del paciente----");
 
@@ -128,13 +127,45 @@ public class Practice5 {
 
             pacientes.add(paciente);
 
-            System.out.println("DESEA INGRESAR OTRO PACIENTE (S/N):");
-            deseaIngresarPaciente = scanner.nextLine().toLowerCase().charAt(0);
+
+            if (pacientes.size() != 6) {
+                System.out.println("DESEA INGRESAR OTRO PACIENTE (S/N):");
+                char deseaIngresarOtroPaciente = scanner.nextLine().trim().charAt(0);
+
+                if (deseaIngresarOtroPaciente == 's') {
+                    registrarPacientes();
+                }
+            }
         }
 
-        imprimirPacientesConCovid(pacientes);
+        public void imprimirPacientesConCovid() {
+            int pacientesConCovid = 0;
+
+            System.out.printf("%50s\n", "CENTRO MÉDICO MARÍA AUXILIADORA");
+
+            System.out.printf("%-25s %-25s %-40s %-25s\n", "HIST.CLIN", "CEDULA", "NOMBRES", "COVID-19");
+
+            for (Paciente paciente : pacientes) {
+                if (paciente.tieneCovid.equals("SI")) {
+                    pacientesConCovid++;
+                    System.out.printf("%-25s %-25d %-40s %-25s\n", paciente.historiaLaboral, paciente.cedula, paciente.nombresCompletos, paciente.tieneCovid);
+
+                }
+            }
+
+            System.out.println("CANTIDAD DE PACIENTES CON COVID-19: " + pacientesConCovid);
+            System.out.println("---GRACIAS POR USAR EL SISTEMA---");
+        }
 
     }
+
+    public static void main(String[] args) {
+        SistemaMedico sistemaMedico = new SistemaMedico();
+
+        sistemaMedico.registrarPacientes();
+        sistemaMedico.imprimirPacientesConCovid();
+    }
+
 
     static void imprimirPacientesConCovid(ArrayList<Paciente> pacientes) {
         int pacientesConCovid = 0;
