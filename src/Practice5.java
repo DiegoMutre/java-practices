@@ -165,24 +165,4 @@ public class Practice5 {
         sistemaMedico.registrarPacientes();
         sistemaMedico.imprimirPacientesConCovid();
     }
-
-
-    static void imprimirPacientesConCovid(ArrayList<Paciente> pacientes) {
-        int pacientesConCovid = 0;
-
-        System.out.printf("%50s\n", "CENTRO MÉDICO MARÍA AUXILIADORA");
-
-        System.out.printf("%-25s %-25s %-40s %-25s\n", "HIST.CLIN", "CEDULA", "NOMBRES", "COVID-19");
-
-        for (Paciente paciente : pacientes) {
-            if (paciente.tieneCovid.equals("SI")) {
-                pacientesConCovid++;
-                System.out.printf("%-25s %-25d %-40s %-25s\n", paciente.historiaLaboral, paciente.cedula, paciente.nombresCompletos, paciente.tieneCovid);
-
-            }
-        }
-
-        System.out.println("CANTIDAD DE PACIENTES CON COVID-19: " + pacientesConCovid);
-        System.out.println("---GRACIAS POR USAR EL SISTEMA---");
-    }
 }
