@@ -41,10 +41,13 @@ public class Practice5 {
         }
 
         public void solicitarNombresCompletos() {
-            System.out.println("Nombres completos (solo caracteres tipo texto):");
-            nombresCompletos = scanner.nextLine().trim();
+            System.out.println("Nombres completos (dos nombres y dos apellidos):");
+            nombresCompletos = scanner.nextLine().trim().toUpperCase();
 
-            if (!nombresCompletos.matches("^[a-zA-Z ]+$")) {
+            // El regex comprueba si son 4 palabras, dos nombres y dos apellidos
+            // Tambien permite letras con tildes `\\p{L1}`
+            // Y permite la letra `ñ`
+            if (!nombresCompletos.matches("([a-zA-Z\\p{L1}ñ]+\\s+){3}[a-zA-Z\\p{L1}ñ]+")) {
                 solicitarNombresCompletos();
             }
         }
