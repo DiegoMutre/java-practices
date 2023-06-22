@@ -17,94 +17,86 @@ public class Practice5 {
         public void solicitarHistoriaLaboral() {
             String historiaLaboralString;
 
-            System.out.println("Historia laboral:");
+            System.out.println("Historia laboral (minimo 1 digito, maximo 4):");
             historiaLaboralString = scanner.nextLine();
 
-
-            while (!historiaLaboralString.matches("^[0-9]{1,4}$")) {
-                System.out.println("Historia laboral (solo numeros, minimo 1 y maximo 4):");
-                historiaLaboralString = scanner.nextLine();
+            if (!historiaLaboralString.matches("^[0-9]{1,4}+$")) {
+                solicitarHistoriaLaboral();
+            } else {
+                historiaLaboral = Integer.parseInt(historiaLaboralString);
             }
-
-            historiaLaboral = Integer.parseInt(historiaLaboralString);
         }
 
         public void solicitarCedula() {
             String cedulaString;
 
-            System.out.println("Cedula:");
+            System.out.println("Cedula (10 digitos, Cedula Ecuatoriana):");
             cedulaString = scanner.nextLine();
 
-
-            while (!cedulaString.matches("^[0-9]{10}$")) {
-                System.out.println("Cedula (10 numeros, cedula Ecuatoriana):");
-                cedulaString = scanner.nextLine();
+            if (!cedulaString.matches("^[0-9]{10}$")) {
+                solicitarCedula();
+            } else {
+                cedula = Integer.parseInt(cedulaString);
             }
-
-            cedula = Integer.parseInt(cedulaString);
         }
 
         public void solicitarNombresCompletos() {
-            System.out.println("Nombres completos:");
+            System.out.println("Nombres completos (solo caracteres tipo texto):");
             nombresCompletos = scanner.nextLine().trim();
 
-
-            while (!nombresCompletos.matches("^[a-zA-Z ]+$")) {
-                System.out.println("Nombres completos (solo letras):");
-                nombresCompletos = scanner.nextLine().trim();
+            if (!nombresCompletos.matches("^[a-zA-Z ]+$")) {
+                solicitarNombresCompletos();
             }
         }
 
         public void solicitarEdad() {
             String edadString;
 
-            System.out.println("Edad:");
+            System.out.println("Edad: (solo digitos numericos, maximo 3 numeros):");
             edadString = scanner.nextLine();
 
 
-            while (!edadString.matches("^[0-9]{1,3}$")) {
-                System.out.println("Edad: (solo numeros, maximo 3 numeros):");
-                edadString = scanner.nextLine();
+            if (!edadString.matches("^[0-9]{1,3}$")) {
+                solicitarEdad();
+            } else {
+                edad = Integer.parseInt(edadString);
             }
-
-            edad = Integer.parseInt(edadString);
         }
 
         public void solicitarSintomas() {
-            char deseaIngresarSintoma = 's';
+            String sintoma;
 
-            while (deseaIngresarSintoma == 's' && sintomas.size() != 4) {
+            System.out.println("Sintoma " + (sintomas.size() + 1) + " (solo texto):");
+            sintoma = scanner.nextLine().toLowerCase().trim().replaceAll("\\s+", " ");
 
-                System.out.println("Sintoma " + (sintomas.size() + 1) + ":");
-                String sintoma = scanner.nextLine().toLowerCase().trim();
-
-                while (!sintoma.matches("^[a-zA-Z ]+$")) {
-                    System.out.println("Sintoma " + (sintomas.size() + 1) + " (solo letras):");
-                    sintoma = scanner.nextLine().toLowerCase().trim();
-                }
-
+            if (!sintoma.matches("^[a-zA-Z ]+$")) {
+                solicitarSintomas();
+            } else {
                 sintomas.add(sintoma);
 
                 if (sintomas.size() != 4) {
                     System.out.println("Desea ingresar otro sintoma? S/N:");
-                    deseaIngresarSintoma = scanner.nextLine().toLowerCase().charAt(0);
+                    char deseaIngresarOtroSintoma = scanner.nextLine().toLowerCase().trim().charAt(0);
+
+                    if (deseaIngresarOtroSintoma == 's') {
+                        solicitarSintomas();
+                    }
                 }
             }
+
         }
 
+
         public void solicitarPrescripcionMedica() {
-            System.out.println("Registre la prescripcion medica:");
+            System.out.println("Registre la prescripcion medica (solo caracteres tipo texto, no puede ir vacio):");
             prescripcionMedica = scanner.nextLine().trim();
 
-
-            while (!prescripcionMedica.matches("^[a-zA-Z ]+$")) {
-                System.out.println("Registre la prescripcion medica (solo letras, no puede ir vacio):");
-                prescripcionMedica = scanner.nextLine().trim();
+            if (!prescripcionMedica.matches("^[a-zA-Z ]+$")) {
+                solicitarPrescripcionMedica();
             }
         }
 
         public void determinarSiTieneCovid() {
-
             if (sintomas.contains("fatiga") && sintomas.contains("fiebre") && sintomas.contains("perdida de olfato y gusto")) {
                 tieneCovid = "SI";
             }
@@ -149,12 +141,12 @@ public class Practice5 {
 
         System.out.printf("%50s\n", "CENTRO MÉDICO MARÍA AUXILIADORA");
 
-        System.out.printf("%-25s %-25s %-25s %-25s\n", "HIST.CLIN", "CEDULA", "NOMBRES", "COVID-19");
+        System.out.printf("%-25s %-25s %-40s %-25s\n", "HIST.CLIN", "CEDULA", "NOMBRES", "COVID-19");
 
         for (Paciente paciente : pacientes) {
             if (paciente.tieneCovid.equals("SI")) {
                 pacientesConCovid++;
-                System.out.printf("%-25s %-25d %-25s %-25s\n", paciente.historiaLaboral, paciente.cedula, paciente.nombresCompletos, paciente.tieneCovid);
+                System.out.printf("%-25s %-25d %-40s %-25s\n", paciente.historiaLaboral, paciente.cedula, paciente.nombresCompletos, paciente.tieneCovid);
 
             }
         }
