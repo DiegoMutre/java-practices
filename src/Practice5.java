@@ -72,7 +72,7 @@ public class Practice5 {
             System.out.println("Sintoma " + (sintomas.size() + 1) + " (solo texto):");
             sintoma = scanner.nextLine().toLowerCase().trim().replaceAll("\\s+", " ");
 
-            if (!sintoma.matches("^[a-zA-Z ]+$")) {
+            if (!sintoma.matches("^[a-zA-Z\\p{L1}ñ ]+$")) {
                 solicitarSintomas();
             } else {
                 sintomas.add(sintoma);
@@ -91,10 +91,14 @@ public class Practice5 {
 
 
         public void solicitarPrescripcionMedica() {
-            System.out.println("Registre la prescripcion medica (solo caracteres tipo texto, no puede ir vacio):");
-            prescripcionMedica = scanner.nextLine().trim();
+            System.out.println("Registre la prescripcion medica (no puede ir vacio):");
+            prescripcionMedica = scanner.nextLine().trim().replaceAll("\\s+", " ");
 
-            if (!prescripcionMedica.matches("^[a-zA-Z ]+$")) {
+            // Cualquier texto, numeros, signos, etc. seran permitidos
+            // Esto se hace debido a que las prescripciones medicas pueden incluir numeros,
+            // signos de puntuacion, letras con acento, etc.
+            // Se podria mejorar para evitar caracteres innecesarios como `<>` o `\`
+            if (prescripcionMedica.isEmpty()) {
                 solicitarPrescripcionMedica();
             }
         }
